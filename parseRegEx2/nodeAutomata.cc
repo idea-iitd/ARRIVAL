@@ -36,7 +36,6 @@ void automata::plus() {
 void automata::unionor(automata* _automaton) {
     vector<state*>::iterator it;
     for (it = _automaton->startState->fwdTransitions.begin(); it != _automaton->startState->fwdTransitions.end(); ++it) {
-        (*it)->setTransition(startState, false);
         startState->setTransition((*it), true);
     }
     for ( int i = 0; i < _automaton->finalStates.size(); ++i ) {
