@@ -10,7 +10,7 @@
 #include "../Graph/Graph.cc"
 #endif
 
-#include "../Methods/rr2.cc"
+#include "../Methods/rr_node.cc"
 
 
 void runQueries(Graph* newG, Random* rand, char* queryFile) {
@@ -28,6 +28,9 @@ void runQueries(Graph* newG, Random* rand, char* queryFile) {
 	    inter += (finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec)/pow(10, 9);
     }
     inter  = inter/50;
+    cout<<"Query, ";
+    cout <<"response, ";
+    cout <<"time"<< endl; 
     
 	while (getline(myfile3, line)) {
         querynum++;
@@ -60,9 +63,9 @@ void runQueries(Graph* newG, Random* rand, char* queryFile) {
 	    clock_gettime( CLOCK_MONOTONIC, &finish);
         double time1 = max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec)/pow(10, 9) - inter, 0.00000001);
         
-        cout<<querynum<<":Query: "<<u<<" "<<v<<" "<< nodeA<<" "<<edgeA<<", ";
-        cout << "Response: "<<response<<", ";
-        cout << "Time: " << time1<< endl; 
+        cout<<querynum<<u<<" "<<v<<" "<< nodeA<<" "<<edgeA<<", ";
+        cout <<response<<", ";
+        cout <<time1<< endl; 
 
         if (response == 0) {
             negtime += time1;
@@ -82,8 +85,9 @@ int main(int argc, char *argv[]) {
     char *edgeFile = argv[1];
     char *labelFile = argv[2];
 	char *queryFile = argv[3];
+    int dir = atoi(argv[4]);
 
-    Graph* newG = new Graph(edgeFile, labelFile, 1);
+    Graph* newG = new Graph(edgeFile, labelFile, dir);
     Random* rand = new Random(newG->numEdges, time(0));
 
     runQueries(newG, rand, queryFile);
