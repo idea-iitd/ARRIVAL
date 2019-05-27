@@ -10,7 +10,7 @@
 #include "../Graph/Graph.cc"
 #endif
 
-#include "../Methods/rr_node.cc"
+#include "../Methods/rr_comb.cc"
 
 
 void runQueries(Graph* newG, Random* rand, char* queryFile) {
@@ -57,13 +57,14 @@ void runQueries(Graph* newG, Random* rand, char* queryFile) {
         automata* edge = conversionNode(edgeA);
 
         int response;
+        int max_penalty =2;
 
 	    clock_gettime( CLOCK_MONOTONIC, &start);
-        response = RandomWalk(u, v, newG, node, edge, rand);
+        response = RandomWalk(u, v, newG, node, edge, rand, max_penalty);
 	    clock_gettime( CLOCK_MONOTONIC, &finish);
         double time1 = max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec)/pow(10, 9) - inter, 0.00000001);
         
-        cout<<querynum<<u<<" "<<v<<" "<< nodeA<<" "<<edgeA<<", ";
+        cout<<querynum<<":"<<u<<" "<<v<<" "<< nodeA<<" "<<edgeA<<", ";
         cout <<response<<", ";
         cout <<time1<< endl; 
 
@@ -76,8 +77,8 @@ void runQueries(Graph* newG, Random* rand, char* queryFile) {
             posn++;
         }
     }
-    cout<<negtime/negn << ", "<< postime/posn<<endl;
-    cout<<negn<<","<<posn<<endl;
+    cout<<"negative, "<<negn<<", "<<negtime/negn<<endl;
+    cout<<"positive, "<<posn<<", "<<postime/posn<<endl;
     return;
 }
 

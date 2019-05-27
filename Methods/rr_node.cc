@@ -121,7 +121,7 @@ int RandomWalk(int src, int dst, Graph* g, automata* nodeAutomata, automata* edg
 					break;
 				}
 				else {
-					fwdCntr[prev][prevNodeState] = 0;
+					fwdCntr[prev][prevNodeState] = -max_pen;
 				}
 			}
 			
@@ -155,12 +155,8 @@ int RandomWalk(int src, int dst, Graph* g, automata* nodeAutomata, automata* edg
 						vector <int> matches =  walkNumber_F[node][nodeState];
 						for (int i = 0; i < matches.size(); ++i) {
 							for (int fwd_matches = 0; fwd_matches < fwd_walk[matches[i]].size(); ++fwd_matches) {
-								if (fwd_walk[matches[i]][fwd_matches] == node) {
-									return 1;
-								}
-								if (set.find(fwd_walk[matches[i]][fwd_matches]) != set.end()) {
-									break;
-								}
+								if (fwd_walk[matches[i]][fwd_matches] == node) return 1;
+								if (set.find(fwd_walk[matches[i]][fwd_matches]) != set.end()) break;
 							}
 						}
 					}
@@ -207,7 +203,7 @@ int RandomWalk(int src, int dst, Graph* g, automata* nodeAutomata, automata* edg
 					break;
 				}
 				else {
-					bwdCntr[prev][prevNodeState] = 0;
+					bwdCntr[prev][prevNodeState] = -max_pen;
 				}
 			}
 		}

@@ -13,6 +13,7 @@ void Node::addEdge(int _destId, bool _direction, int _label = 0){
 	else {
 		bwd_labelled_edges[_label].push_back(_destId);
 		numBwdEdges[_label] += 1;
+        allBwdEdges.push_back(_destId);
 	}
 }
 

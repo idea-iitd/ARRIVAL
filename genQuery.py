@@ -2,7 +2,7 @@ import sys
 import pandas as pd
 import numpy as np
 
-def generate(ofile, querySize = -1, queryType = -1, bin_start = 0, bin_end = 250):
+def generate(ofile, querySize = -1, queryType = -1, bin_start = 0, bin_end = 20):
     ofile = ofile.head(bin_end).tail(bin_end-bin_start)
     if (querySize == -1):
         querySize = (np.random.randint(4)+1)*2
@@ -34,8 +34,8 @@ def generate(ofile, querySize = -1, queryType = -1, bin_start = 0, bin_end = 250
     if (queryType == 3):
         return('('+'.'.join(map(str,st))+')+')
 
-# This number is only for gplus, change it appropriately: 107613
 
+# This number is only for
 for inp in sys.argv[1:]:
     ofile = pd.read_csv(inp+'/labelfrequency.txt',sep = " ", header = None).sort_values(by = 1, ascending = False).reset_index(drop = True)
     input2 = [2,4,6,8]
@@ -43,8 +43,8 @@ for inp in sys.argv[1:]:
     for inp2 in input2:
         oFile = open(inp+'/queryls'+str(inp2)+'.txt','w')
         for i in range(10000):
-            y = np.random.randint(107613)
-            x = np.random.randint(107613)
+            y = np.random.randint(3674915)
+            x = np.random.randint(3674915)
             oFile.write(str(x) +' ' + str(y) + ' ' + generate(ofile, querySize=inp2)+"\n")
         oFile.close()
 
@@ -53,7 +53,7 @@ for inp in sys.argv[1:]:
         if inp2 == 'mix':
             inp2 = -1
         for i in range(10000):
-            y = np.random.randint(107613)
-            x = np.random.randint(107613)
+            y = np.random.randint(3674915)
+            x = np.random.randint(3674915)
             oFile.write(str(x) +' ' + str(y) + ' ' +generate(ofile, queryType=inp2)+"\n")
         oFile.close()

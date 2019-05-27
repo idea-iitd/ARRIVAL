@@ -17,6 +17,7 @@ public:
     unordered_set < int > labels;
 
     vector < int > allFwdEdges;
+	vector < int > allBwdEdges;
 	unordered_map < int, int > numFwdEdges;
 	unordered_map < int, int > numBwdEdges;
 
