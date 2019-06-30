@@ -11,3 +11,5 @@ The folder should contain:
 1. edgefile (edges.txt) (each line of the form u v l, where there is an edge from u to v with a label l, if l is not present it is assumed to be 1)
 2. labelfile (labels.txt) (each line of the form u l, where node u has a label l, multiple labels on a node are allowed with newline) 
 3. queryfile (query has to be of the form u v noderegex edgeregex, if no edgeregex is found it will be assumed to be (1)*).
+
+Set the 4th parameter to 2 or 4 depending on what you wish to prefer: 2 for speedup, 4 for accuracy. You can increase the parameter to increase accuracy further.
