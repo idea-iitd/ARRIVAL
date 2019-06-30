@@ -16,7 +16,8 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
 {
     string line;
     double negtime = 0, postime = 0;
-    int negn = 0, posn = 0;
+    double labeltime = 0, edgetime = 0;
+    int negn = 0, posn = 0, numl = 0, nume = 0;
     ifstream myfile3(queryFile);
     struct timespec start, finish;
     double inter;
@@ -39,54 +40,106 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
 
         if (line[0] == '#')
             continue;
+        
 
         char *cstr = &line[0u];
 
         char *t = strtok(cstr, " ");
-        int u = atoi(t);
+		string inputType = string(t);
 
-        t = strtok(NULL, " ");
-        int v = atoi(t);
 
-        t = strtok(NULL, " ");
-        string nodeA = string(t);
+		if (inputType.compare("edge") == 0) {
+			t = strtok(NULL, " ");
+			int u = atoi(t);
 
-        t = strtok(NULL, " ");
-        string edgeA;
+			t = strtok(NULL, " ");
+			int v = atoi(t);
 
-        if (t == NULL)
-            edgeA = "1+";
-        else
-            edgeA = string(t);
+			for (int j = newG->numNodes; j <= max(u,v); j++) {
+				newG->addNode();
+			}
 
-        automata *node = conversionNode(nodeA);
-        automata *edge = conversionNode(edgeA);
+			t = strtok(NULL, " ");
+			int l;
 
-        int response;
+			if (t == NULL) {
+				l = 0;
+			}
+			else 
+				l = atoi(t);
 
-        clock_gettime(CLOCK_MONOTONIC, &start);
-        response = RandomWalk(u, v, newG, node, edge, rand, max_penalty);
-        clock_gettime(CLOCK_MONOTONIC, &finish);
+            clock_gettime(CLOCK_MONOTONIC, &start);
+            newG->addEdge(u, v, l);
+            clock_gettime(CLOCK_MONOTONIC, &finish);
+			
+            edgetime+=max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9) - inter, 0.00000001);
+			nume++;
+		}
 
-        double time1 = max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9) - inter, 0.00000001);
+		else if (inputType.compare("label") == 0) {
+			t = strtok(NULL, " ");
+			int u = atoi(t);
 
-        cout << querynum << ", ";
-        cout << response << ", ";
-        cout << time1 << endl;
+			t = strtok(NULL, " ");
+			int l = atoi(t);
 
-        if (response == 0)
-        {
-            negtime += time1;
-            negn++;
-        }
-        else
-        {
-            postime += time1;
-            posn++;
+
+            clock_gettime(CLOCK_MONOTONIC, &start);
+			newG->addLabel(u, l);
+            clock_gettime(CLOCK_MONOTONIC, &finish);
+            labeltime+=max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9) - inter, 0.00000001);
+            ++numl;
+		}
+
+        else {
+            t = strtok(NULL, " ");
+            int u = atoi(t);
+
+            t = strtok(NULL, " ");
+            int v = atoi(t);
+
+            t = strtok(NULL, " ");
+            string nodeA = string(t);
+
+            t = strtok(NULL, " ");
+            string edgeA;
+
+            if (t == NULL)
+                edgeA = "1+";
+            else
+                edgeA = string(t);
+
+            automata *node = conversionNode(nodeA);
+            automata *edge = conversionNode(edgeA);
+
+            int response;
+
+            clock_gettime(CLOCK_MONOTONIC, &start);
+            response = RandomWalk(u, v, newG, node, edge, rand, max_penalty);
+            clock_gettime(CLOCK_MONOTONIC, &finish);
+
+            double time1 = max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9) - inter, 0.00000001);
+
+            cout << querynum << ", ";
+            cout << response << ", ";
+            cout << time1 << endl;
+
+            if (response == 0)
+            {
+                negtime += time1;
+                negn++;
+            }
+            else
+            {
+                postime += time1;
+                posn++;
+            }
         }
     }
     cout << "negative, " << negn << ", " << negtime / negn << endl;
     cout << "positive, " << posn << ", " << postime / posn << endl;
+    cout << "labeltime, " <<numl<< ", "  << labeltime/numl<<endl;
+    cout << "edgetime, " <<nume << ", " << edgetime/nume<<endl;
     return;
 }
 

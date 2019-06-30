@@ -6,7 +6,7 @@
 
 Graph::Graph(char *graphfilename, char *featfilename, int dir_control)
 {
-
+	toUpdate = 0;
 	string line;
 	double elapsed;
 	struct timespec start, finish;
@@ -81,15 +81,13 @@ Graph::Graph(char *graphfilename, char *featfilename, int dir_control)
 	myfile2.close();
 
 	// Estimate diameter of graph by sampling 10 random nodes
-	int dia = diameter();
+	dia = diameter();
 	for (int i = 0; i < 9; i++)
 	{
-		int d = diameter();
-		if (d > dia)
-			dia = d;
+		dia = max(dia, diameter());
 	}
 	// Use diameter to initialize the parameters
-	initializeRRParams(dia);
+	updateParams();
 
 	clock_gettime(CLOCK_MONOTONIC, &finish);
 	cout << "Initialization Time: " << (finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9) << endl;
@@ -110,14 +108,27 @@ void Graph::addEdge(int src, int dst, int l, int dir_control = 1)
 	numEdges++;
 }
 
-void Graph::initializeRRParams(int diameter)
-{
+void Graph::updateParams() {
+	dia = max(dia, diameter());
 	numStops = (float)(floor(pow((numNodes), 2.0 / 3) * pow(log(numNodes), 1.0 / 3)));
-	walkLength = diameter;
+	walkLength = dia;
 	numWalks = (float)numStops / (2 * walkLength);
-
 	if (numWalks == 0)
 		numWalks = 1;
+}
+
+void Graph::addNode()
+{
+	nodes.push_back(new Node(numNodes++));
+}
+
+void Graph::addLabel(int node, int label) 
+{
+	for (int j = numNodes; j <= node; j++) {
+		nodes.push_back(new Node(j));
+		numNodes++;
+	}
+	nodes[node]->labels.insert(label);
 }
 
 // Simple bfs to estimate the depth

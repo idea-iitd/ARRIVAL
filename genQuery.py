@@ -37,23 +37,41 @@ def generate(ofile, querySize = -1, queryType = -1, bin_start = 0, bin_end = 20)
 
 # This number is only for
 for inp in sys.argv[1:]:
-    ofile = pd.read_csv(inp+'/labelfrequency.txt',sep = " ", header = None).sort_values(by = 1, ascending = False).reset_index(drop = True)
+    ofile = pd.read_csv('../'+inp+'/labelfrequency.txt',sep = " ", header = None).sort_values(by = 1, ascending = False).reset_index(drop = True)
     input2 = [2,4,6,8]
     input3 = ['mix',2,3,4]
-    for inp2 in input2:
-        oFile = open(inp+'/queryls'+str(inp2)+'.txt','w')
-        for i in range(10000):
-            y = np.random.randint(3674915)
-            x = np.random.randint(3674915)
-            oFile.write(str(x) +' ' + str(y) + ' ' + generate(ofile, querySize=inp2)+"\n")
-        oFile.close()
+    # for inp2 in input2:
+    #     oFile = open('../'+inp+'/queryls'+str(inp2)+'.txt','w')
+    #     for i in range(10000):
+    #         y = np.random.randint(100000)
+    #         x = np.random.randint(100000)
+    #         oFile.write('query ' + str(x) +' ' + str(y) + ' ' + generate(ofile, querySize=inp2)+"\n")
+    #     oFile.close()
 
-    for inp2 in input3:
-        oFile = open(inp+'/query'+str(inp2)+'.txt','w')
-        if inp2 == 'mix':
-            inp2 = -1
-        for i in range(10000):
-            y = np.random.randint(3674915)
-            x = np.random.randint(3674915)
-            oFile.write(str(x) +' ' + str(y) + ' ' +generate(ofile, queryType=inp2)+"\n")
-        oFile.close()
+    # for inp2 in input3:
+    #     oFile = open('../'+inp+'/query'+str(inp2)+'.txt','w')
+    #     if inp2 == 'mix':
+    #         inp2 = -1
+    #     for i in range(10000):
+    #         y = np.random.randint(100000)
+    #         x = np.random.randint(100000)
+    #         oFile.write('query ' + str(x) +' ' + str(y) + ' ' +generate(ofile, queryType=inp2)+"\n")
+    #     oFile.close()
+
+    oFile = open('../'+inp+'/dynquery.txt','w')
+    inp2 = -1
+    for i in range(10000):
+        d = np.random.randint(3)
+        if d == 1:
+            y = np.random.randint(100000)
+            x = np.random.randint(100000)
+            oFile.write('query ' + str(x) +' ' + str(y) + ' ' +generate(ofile, queryType=inp2)+"\n")
+        elif d == 2:
+            y = np.random.randint(100000)
+            x = np.random.randint(100000)
+            oFile.write('edge ' + str(x) +' ' + str(y) + "\n")
+        else:
+            y = np.random.randint(250)
+
+            x = np.random.randint(100000)
+            oFile.write('label ' + str(x) +' ' + str(ofile[0][y]) + "\n")
