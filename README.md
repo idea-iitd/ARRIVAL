@@ -13,3 +13,7 @@ The folder should contain:
 3. queryfile (query has to be of the form u v noderegex edgeregex, if no edgeregex is found it will be assumed to be (1)*).
 
 Set the 4th parameter to 2 or 4 depending on what you wish to prefer: 2 for speedup, 4 for accuracy. You can increase the parameter to increase accuracy further.
+
+## Parallelisation
+
+I am trying to implement a parallellised random walk here: www.github.com/sarisht/PARRIVAL, please do view and give feedback
