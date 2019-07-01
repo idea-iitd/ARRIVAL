@@ -57,6 +57,11 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
 
 			for (int j = newG->numNodes; j <= max(u,v); j++) {
 				newG->addNode();
+                
+                if (++newG->toUpdate == newG->numNodes/10) {
+                    newG->updateParams();
+                    newG->toUpdate = 0;
+                }
 			}
 
 			t = strtok(NULL, " ");
