@@ -14,6 +14,8 @@ The folder should contain:
 
 Set the 4th parameter to 2 or 4 depending on what you wish to prefer: 2 for speedup, 4 for accuracy. You can increase the parameter to increase accuracy further.
 
+###EDIT: With Dynamic Queries, the queries need to be of the form: "query" u v noderegex edgeregex, to ask a query; "edge" u v, to add an edge from u to v; "label" u l, to add a label l to node u
+
 ## Parallelisation
 
 I am trying to implement a parallellised random walk here: www.github.com/sarisht/PARRIVAL, please do view and give feedback
