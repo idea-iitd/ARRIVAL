@@ -21,7 +21,12 @@ void Node::addEdge(int _destId, bool _direction, int _label = 0)
 	}
 }
 
-void Node::add_label(int l)
+void Node::add_label(int l, int sort = 0) 
 {
-	labels.insert(l);
+	labels.push_back(l);
+	if (sort) sort_labels();
+}
+
+void Node::sort_labels(){
+	sort(labels.begin(),labels.end());
 }

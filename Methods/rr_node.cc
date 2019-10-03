@@ -126,7 +126,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 						ind = rand->next() % possNewStates.size();
 						nodeState = possNewStates[ind];
 
-						if (currNode->labels.find(nodeLabel) != currNode->labels.end() && fwdCntr[node][nodeState] < max_pen)
+						if (binary_search(currNode->labels.begin(),currNode->labels.end(), nodeLabel) && fwdCntr[node][nodeState] < max_pen)
 						{
 							flag = true;
 							break;
@@ -152,7 +152,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 			walkparity = 0;
 
 			bool direction = false;
-
+ 
 			//Parameter Initialization
 			int node = dst;
 			state *nodeState = nodeAutomata->finalState;
@@ -226,7 +226,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 						ind = rand->next() % possNewStates.size();
 						nodeState = possNewStates[ind];
 
-						if (currNode->labels.find(nodeLabel) != currNode->labels.end() && bwdCntr[node][nodeState] < max_pen)
+						if (binary_search(currNode->labels.begin(),currNode->labels.end(), nodeLabel) && bwdCntr[node][nodeState] < max_pen)
 						{
 							flag = true;
 							break;

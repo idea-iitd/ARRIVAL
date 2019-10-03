@@ -4,6 +4,8 @@
 #include <cstring>
 #include <math.h>
 
+
+
 Graph::Graph(char *graphfilename, char *featfilename, int dir_control)
 {
 	toUpdate = 0;
@@ -39,6 +41,10 @@ Graph::Graph(char *graphfilename, char *featfilename, int dir_control)
 		nodes[u]->add_label(l);
 	}
 	myfile3.close();
+
+	for (int i = 0; i < numNodes; i++){
+		nodes[i]->sort_labels();
+	}
 
 	// Add edges between Nodes, directed or undirected controlled
 	ifstream myfile2(graphfilename);
@@ -109,7 +115,6 @@ void Graph::addEdge(int src, int dst, int l, int dir_control = 1)
 }
 
 void Graph::updateParams() {
-	dia = max(dia, diameter());
 	numStops = (float)(floor(pow((numNodes), 2.0 / 3) * pow(log(numNodes), 1.0 / 3)));
 	walkLength = dia;
 	numWalks = (float)numStops / (2 * walkLength);
@@ -128,7 +133,7 @@ void Graph::addLabel(int node, int label)
 		nodes.push_back(new Node(j));
 		numNodes++;
 	}
-	nodes[node]->labels.insert(label);
+	nodes[node]->add_label(label, 1);
 }
 
 // Simple bfs to estimate the depth

@@ -1,6 +1,6 @@
 #include <vector>
 #include <unordered_map>
-#include <unordered_set>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,10 +11,10 @@ public:
 	Node(int _NodeId);
 
 	void addEdge(int _destId, bool _direction, int _label);
-    void add_label(int l);
-
+    void add_label(int l, int sort);
+	void sort_labels();
     int nodeId;
-    unordered_set < int > labels;
+    vector < int > labels;
 
     vector < int > allFwdEdges;
 	vector < int > allBwdEdges;
@@ -23,4 +23,5 @@ public:
 
 	unordered_map < int, vector < int > > fwd_labelled_edges;
 	unordered_map < int, vector < int > > bwd_labelled_edges;
+	
 };

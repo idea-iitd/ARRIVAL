@@ -10,7 +10,58 @@
 #include "../Graph/Graph.cc"
 #endif
 
-#include "../Methods/rr_node.cc"
+#include "../Methods/rr_comb.cc"
+#ifdef __MACH__
+#include <mach/mach.h>
+#endif
+
+#include "stdlib.h" 
+#include "stdio.h"
+#include "string.h"
+
+#include <fstream>
+
+std::ofstream logfile;
+
+int parseLine(char* line){
+    // This assumes that a digit will be found and the line ends in " Kb".
+    int i = strlen(line);
+    const char* p = line;
+    while (*p <'0' || *p > '9') p++;
+    line[i-3] = '\0';
+    i = atoi(p);
+    return i;
+}
+
+double getValue(){ // This value is in KB!
+    #ifdef __MACH__
+
+    struct task_basic_info t_info;
+    mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
+
+    if (KERN_SUCCESS != task_info(mach_task_self(),
+                                TASK_BASIC_INFO, (task_info_t)&t_info, 
+                                &t_info_count))
+    {
+        return -1;
+    }
+    return (double)t_info.virtual_size/1024;
+    #else
+    FILE* file = fopen("/proc/self/status", "r");
+    int result = -1;
+    char line[128];
+
+    while (fgets(line, 128, file) != NULL){
+        if (strncmp(line, "VmSize:", 7) == 0){
+            result = parseLine(line);
+            break;
+        }
+    }
+    fclose(file);
+    return (double)result;
+    #endif
+}
+
 
 void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
 {
@@ -30,14 +81,13 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
         inter += (finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9);
     }
     inter /= 50;
-    cout << "Query, ";
-    cout << "response, ";
-    cout << "time" << endl;
+    logfile << "Query, ";
+    logfile << "response, ";
+    logfile << "time" << endl;
 
     while (getline(myfile3, line))
     {
         querynum++;
-
         if (line[0] == '#')
             continue;
         
@@ -125,9 +175,9 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
 
             double time1 = max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9) - inter, 0.00000001);
 
-            cout << querynum << ", ";
-            cout << response << ", ";
-            cout << time1 << endl;
+            logfile << querynum << ", ";
+            logfile << response << ", ";
+            logfile << time1 << endl;
 
             if (response == 0)
             {
@@ -143,8 +193,8 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
     }
     cout << "negative, " << negn << ", " << negtime / negn << endl;
     cout << "positive, " << posn << ", " << postime / posn << endl;
-    cout << "labeltime, " <<numl<< ", "  << labeltime/numl<<endl;
-    cout << "edgetime, " <<nume << ", " << edgetime/nume<<endl;
+    cout << "labeltime, " << numl<< ", "  << labeltime/ numl<<endl;
+    cout << "edgetime, " << nume << ", " << edgetime/nume<<endl;
     return;
 }
 
@@ -153,12 +203,14 @@ int main(int argc, char *argv[])
     char *edgeFile = argv[1];
     char *labelFile = argv[2];
     char *queryFile = argv[3];
-    int dir = atoi(argv[4]);
-    int max_penalty = atoi(argv[5]);
-
+    logfile.open(argv[4]);
+    int dir = atoi(argv[5]);
+    int max_penalty = atoi(argv[6]);
+    double v1 = getValue();
     Graph *newG = new Graph(edgeFile, labelFile, dir);
+    cout<<"Memory Used: " <<(getValue() - v1)/1024<<endl;
     Random *rand = new Random(newG->numEdges, time(0));
-
     runQueries(newG, rand, queryFile, max_penalty);
+    logfile.close();
     return 0;
 }
