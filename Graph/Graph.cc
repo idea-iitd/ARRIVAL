@@ -6,7 +6,7 @@
 
 
 
-Graph::Graph(char *graphfilename, char *featfilename, int dir_control)
+Graph::Graph(char *graphfilename, char *featfilename, char *attrfilename, int dir_control)
 {
 	toUpdate = 0;
 	string line;
@@ -42,6 +42,32 @@ Graph::Graph(char *graphfilename, char *featfilename, int dir_control)
 	}
 	myfile3.close();
 
+	ifstream myfile(attrfilename);
+	while (getline(myfile, line))
+	{
+		if (line[0] == '#')
+			continue;
+		char *cstr = &line[0u];
+
+		char *t = strtok(cstr, " ");
+		int u = atoi(t);
+
+		for (int j = numNodes; j <= u; j++)
+		{
+			nodes.push_back(new Node(j));
+			numNodes++;
+		}
+
+		t = strtok(NULL, " ");
+		string s(t);
+
+		t = strtok(NULL, " ");
+		int l = atoi(t);
+
+		nodes[u]->add_attr(s, l);
+	}
+
+	myfile.close();
 	for (int i = 0; i < numNodes; i++){
 		nodes[i]->sort_labels();
 	}
@@ -114,7 +140,8 @@ void Graph::addEdge(int src, int dst, int l, int dir_control = 1)
 	numEdges++;
 }
 
-void Graph::updateParams() {
+void Graph::updateParams() 
+{
 	numStops = (float)(floor(pow((numNodes), 2.0 / 3) * pow(log(numNodes), 1.0 / 3)));
 	walkLength = dia;
 	numWalks = (float)numStops / (2 * walkLength);
@@ -129,11 +156,17 @@ void Graph::addNode()
 
 void Graph::addLabel(int node, int label) 
 {
-	for (int j = numNodes; j <= node; j++) {
+	for (int j = numNodes; j <= node; j++) 
+	{
 		nodes.push_back(new Node(j));
 		numNodes++;
 	}
 	nodes[node]->add_label(label, 1);
+}
+
+void Graph::addAttr(int node, string s, int val)
+{
+	nodes[node]->add_attr(s, val);
 }
 
 // Simple bfs to estimate the depth

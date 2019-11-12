@@ -11,6 +11,7 @@
 #endif
 
 #include "../Methods/rr_comb.cc"
+#include "../Methods/rr_qt.cc"
 #ifdef __MACH__
 #include <mach/mach.h>
 #endif
@@ -146,6 +147,48 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
             ++numl;
 		}
 
+        else if (inputType.compare("querytime") == 0) {
+            t = strtok(NULL, " ");
+            int u = atoi(t);
+
+            t = strtok(NULL, " ");
+            int v = atoi(t);
+
+            t = strtok(NULL, " ");
+            string nodeA = string(t);
+
+            t = strtok(NULL, " ");
+            string fn = string(t);
+
+            automata *node = conversionNode(nodeA);
+
+            int response;
+
+            
+	        Function fns(fn);
+
+            clock_gettime(CLOCK_MONOTONIC, &start);
+            response = RandomWalkQT(u, v, newG, node, fns, rand, max_penalty);
+            clock_gettime(CLOCK_MONOTONIC, &finish);
+
+            double time1 = max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9) - inter, 0.00000001);
+
+            logfile << querynum << ", ";
+            logfile << response << ", ";
+            logfile << time1 << endl;
+
+            if (response == 0)
+            {
+                negtime += time1;
+                negn++;
+            }
+            else
+            {
+                postime += time1;
+                posn++;
+            }
+        }
+
         else {
             t = strtok(NULL, " ");
             int u = atoi(t);
@@ -174,7 +217,6 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
             clock_gettime(CLOCK_MONOTONIC, &finish);
 
             double time1 = max((finish.tv_sec - start.tv_sec) + (finish.tv_nsec - start.tv_nsec) / pow(10, 9) - inter, 0.00000001);
-
             logfile << querynum << ", ";
             logfile << response << ", ";
             logfile << time1 << endl;
@@ -193,8 +235,8 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
     }
     cout << "negative, " << negn << ", " << negtime / negn << endl;
     cout << "positive, " << posn << ", " << postime / posn << endl;
-    cout << "labeltime, " << numl<< ", "  << labeltime/ numl<<endl;
-    cout << "edgetime, " << nume << ", " << edgetime/nume<<endl;
+    cout << "labeltime, " << numl<< ", "  << labeltime/ numl<< endl;
+    cout << "edgetime, " << nume << ", " << edgetime/nume<< endl;
     return;
 }
 
@@ -202,13 +244,14 @@ int main(int argc, char *argv[])
 {
     char *edgeFile = argv[1];
     char *labelFile = argv[2];
-    char *queryFile = argv[3];
-    logfile.open(argv[4]);
-    int dir = atoi(argv[5]);
-    int max_penalty = atoi(argv[6]);
+    char *attrFile = argv[3];
+    char *queryFile = argv[4];
+    logfile.open(argv[5]);
+    int dir = atoi(argv[6]);
+    int max_penalty = atoi(argv[7]);
     double v1 = getValue();
-    Graph *newG = new Graph(edgeFile, labelFile, dir);
-    cout<<"Memory Used: " <<(getValue() - v1)/1024<<endl;
+    Graph *newG = new Graph(edgeFile, labelFile, attrFile, dir);
+    cout << "Memory Used: " << (getValue() - v1)/1024 << endl;
     Random *rand = new Random(newG->numEdges, time(0));
     runQueries(newG, rand, queryFile, max_penalty);
     logfile.close();

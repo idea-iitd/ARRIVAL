@@ -27,6 +27,12 @@ void Node::add_label(int l, int sort = 0)
 	if (sort) sort_labels();
 }
 
-void Node::sort_labels(){
+void Node::sort_labels()
+{
 	sort(labels.begin(),labels.end());
+}
+
+void Node::add_attr(string s, int value)  
+{
+	attributes[s] = value;
 }

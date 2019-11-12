@@ -1,1 +1,1 @@
-./run.sh gplus querymix 1 4 > results/gplus_mixed.csv
+./run.sh dblp querytime 0 4 > results/dblp_qt.csv
