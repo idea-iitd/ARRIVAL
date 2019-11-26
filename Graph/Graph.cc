@@ -103,7 +103,7 @@ Graph::Graph(char *graphfilename, char *featfilename, char *attrfilename, int di
 		t = strtok(NULL, " ");
 		if (t == NULL)
 		{
-			l = 1;
+			l = -1;
 		}
 		else
 			l = atoi(t);

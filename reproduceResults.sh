@@ -1,19 +1,33 @@
 # Generate all subgraphs of all graphs
 # Generate all queries (and label frequencies) for all graphs (and subgraphs) - For BFS, LI, RL and ARRIVAL
-curl -o gplus.zip -O https://uc617c23a7381db41ab62e6cc953.dl.dropboxusercontent.com/cd/0/get/AsIJCDQHRMSIqzi5N5OFDbcR8DIe1QztzUEsPETZtunBPd0SC81KBiAiKeg_xv7VK7uGaqIBIbBbRqsuSJGHYkgHvolBVOQ4f0PZEgCLbMKW71-eB3mvamFfoJxXN-u6FDg/file
-curl -o dblp.zip -O https://uc413e6f8c8b13110b5f2f89ffe0.dl.dropboxusercontent.com/cd/0/get/AsPk_JhVs1py97ulmvcbnhw_ev8cQUlGn7dUhTgcy3B7fsBC1VbRXg4B9AzmskBkMbJ10Qn1f3ioai9vsHXXO5l-vUO1RXs28gnMR70d5nUWnffhFSuzbESfe_TCSnqTpvk/file
-curl -o freebase.zip -O https://uca1b8be666551fdcd4a9a163a5e.dl.dropboxusercontent.com/cd/0/get/AsPkvj2dzcHl3kC6RE1NL_vs3XVpwqu6VibvZWIvnNDAzwSF6Z8KgFM988AO188mjOFArWWEV5i5gyl7UqPL0xFNTIPtMeYp-Wr4-4EXUFOCM3WNHYVQHitaPzM1NxTt5bc/file
-
 unzip gplus.zip
 unzip dblp.zip
 unzip freebase.zip
+unzip twitter.zip
+unzip stack.zip
 
 rm *.zip
 rm -r __*
 
 git clone https://github.com/idea-iitd/ARRIVAL.git
 
-python scripts/generateSubGraphs.py gplus freebase dblp
+cd ARRIVAL
+python genQuery.py gplus dblp freebase
+python genQueryTime.py
+
+./makeDirectories.sh gplus dblp freebase twitter
+python generateSubGraphs.py gplus dblp freebase
+
+python generateEdgeBaseline.py
+./baselines.sh
+
+python parseRare.py > rareOutput.txt
+python parseLCR.py > LCROutput.txt
+python parseArrivalBase.py > ArrivalOutput.txt
+
+
+
+
 
 # Experiment 1: % of twitter (labels and nodes) vs memory
 # Experiment 2: % of twitter (labels and nodes) vs time
@@ -25,6 +39,6 @@ python scripts/generateSubGraphs.py gplus freebase dblp
 # Experiment 6: network size vs time
 
 # Experiment 7: Recall and speedup in queries with query-time labels
-# Experiment 8: negation/distance vs recall/speedup
+# Experiment 8: negation/distance vs recall/speedup----Not going to do-------
 
 # Experiment 9: numwalks, walklength

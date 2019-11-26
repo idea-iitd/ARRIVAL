@@ -11,132 +11,87 @@ automata *conversionNode(string regex)
     stack<automata *> automatons;
     stack<char> operators;
 
+    if (regex[0] == 'U')
+    {
+        automata *curr = new automata(-1);
+        curr->plus();
+        curr->universal = true;
+        automatons.push(curr);
+    }
+    else 
+    {
     int i = 0;
     while (i < regex.length())
-    {
-        // Generate Automata
-        int num = 0;
-        while (regex[i] == '(')
         {
-            operators.push('(');
-            ++i;
-        }
-        while (isdigit(regex[i]))
-        {
-            num = num * 10 + (regex[i] - '0');
-            ++i;
-        }
+            // Generate Automata
+            int num = 0;
+            while (regex[i] == '(')
+            {
+                operators.push('(');
+                ++i;
+            }
+            while (isdigit(regex[i]))
+            {
+                num = num * 10 + (regex[i] - '0');
+                ++i;
+            }
 
-        automata *curr = new automata(num);
-        // Do operation on Automata
-        if (operators.empty())
-        {
-            automatons.push(curr);
-        }
-        else if (operators.top() == '.')
-        {
-            automata *operated = automatons.top();
-            operated->concat(curr);
-            automatons.pop();
-            operators.pop();
-            automatons.push(operated);
-        }
-        else if (operators.top() == 'U')
-        {
-            automata *operated = automatons.top();
-            operated->unionor(curr);
-            automatons.pop();
-            operators.pop();
-            automatons.push(operated);
-        }
-        else
-        {
-            automatons.push(curr);
-        }
-
-        while (regex[i] == ')')
-        {
-            operators.pop();
+            automata *curr = new automata(num);
+            // Do operation on Automata
             if (operators.empty())
             {
+                automatons.push(curr);
             }
             else if (operators.top() == '.')
             {
                 automata *operated = automatons.top();
+                operated->concat(curr);
                 automatons.pop();
-                automata *operated2 = automatons.top();
-                automatons.pop();
-                operated2->concat(operated);
                 operators.pop();
-                automatons.push(operated2);
+                automatons.push(operated);
             }
             else if (operators.top() == 'U')
             {
                 automata *operated = automatons.top();
+                operated->unionor(curr);
                 automatons.pop();
-                automata *operated2 = automatons.top();
-                automatons.pop();
-                operated2->unionor(operated);
                 operators.pop();
-                automatons.push(operated2);
+                automatons.push(operated);
             }
-            ++i;
-        }
-        // Next operator push or operate(if * or +)
-        if (regex[i] == '.')
-        {
-            operators.push('.');
-            ++i;
-        }
-        else if (regex[i] == 'U')
-        {
-            operators.push('U');
-            ++i;
-        }
-        else if (regex[i] == '*')
-        {
-            automata *operated = automatons.top();
-            operated->closure();
-            automatons.pop();
-            automatons.push(operated);
-            ++i;
-        }
-        else if (regex[i] == '+')
-        {
-            automata *operated = automatons.top();
-            operated->plus();
-            automatons.pop();
-            automatons.push(operated);
-            ++i;
-        }
+            else
+            {
+                automatons.push(curr);
+            }
 
-        while (regex[i] == ')')
-        {
-            operators.pop();
-            if (operators.empty())
+            while (regex[i] == ')')
             {
-            }
-            else if (operators.top() == '.')
-            {
-                automata *operated = automatons.top();
-                automatons.pop();
-                automata *operated2 = automatons.top();
-                automatons.pop();
-                operated2->concat(operated);
                 operators.pop();
-                automatons.push(operated2);
+                if (operators.empty())
+                {
+                }
+                else if (operators.top() == '.')
+                {
+                    automata *operated = automatons.top();
+                    automatons.pop();
+                    automata *operated2 = automatons.top();
+                    automatons.pop();
+                    operated2->concat(operated);
+                    operators.pop();
+                    automatons.push(operated2);
+                }
+                else if (operators.top() == 'U')
+                {
+                    automata *operated = automatons.top();
+                    automatons.pop();
+                    automata *operated2 = automatons.top();
+                    automatons.pop();
+                    operated2->unionor(operated);
+                    operators.pop();
+                    automatons.push(operated2);
+                }
+                ++i;
             }
-            else if (operators.top() == 'U')
-            {
-                automata *operated = automatons.top();
-                automatons.pop();
-                automata *operated2 = automatons.top();
-                automatons.pop();
-                operated2->unionor(operated);
-                operators.pop();
-                automatons.push(operated2);
-            }
-            ++i;
+            // Next operator push or operate(if * or +)
             if (regex[i] == '.')
             {
                 operators.push('.');
@@ -162,6 +117,61 @@ automata *conversionNode(string regex)
                 automatons.pop();
                 automatons.push(operated);
                 ++i;
+            }
+
+            while (regex[i] == ')')
+            {
+                operators.pop();
+                if (operators.empty())
+                {
+                }
+                else if (operators.top() == '.')
+                {
+                    automata *operated = automatons.top();
+                    automatons.pop();
+                    automata *operated2 = automatons.top();
+                    automatons.pop();
+                    operated2->concat(operated);
+                    operators.pop();
+                    automatons.push(operated2);
+                }
+                else if (operators.top() == 'U')
+                {
+                    automata *operated = automatons.top();
+                    automatons.pop();
+                    automata *operated2 = automatons.top();
+                    automatons.pop();
+                    operated2->unionor(operated);
+                    operators.pop();
+                    automatons.push(operated2);
+                }
+                ++i;
+                if (regex[i] == '.')
+                {
+                    operators.push('.');
+                    ++i;
+                }
+                else if (regex[i] == 'U')
+                {
+                    operators.push('U');
+                    ++i;
+                }
+                else if (regex[i] == '*')
+                {
+                    automata *operated = automatons.top();
+                    operated->closure();
+                    automatons.pop();
+                    automatons.push(operated);
+                    ++i;
+                }
+                else if (regex[i] == '+')
+                {
+                    automata *operated = automatons.top();
+                    operated->plus();
+                    automatons.pop();
+                    automatons.push(operated);
+                    ++i;
+                }
             }
         }
     }

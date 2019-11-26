@@ -1,0 +1,76 @@
+Initialization Time: 41.5319
+Memory Used: 15476.5
+negative, 10000, 0.00865772
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 40.3859
+Memory Used: 15484.6
+negative, 10000, 0.0118433
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 42.6334
+Memory Used: 15491.3
+negative, 10000, 0.0112018
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 39.7812
+Memory Used: 15489.3
+negative, 10000, 0.0116338
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 74.3298
+Memory Used: 15491.3
+negative, 10000, 0.0192874
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 65.8278
+Memory Used: 15508.5
+negative, 10000, 0.0189493
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 61.9382
+Memory Used: 15510.5
+negative, 10000, 0.0215593
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 56.0676
+Memory Used: 15506.5
+negative, 10000, 0.0187407
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 55.2197
+Memory Used: 15508.5
+negative, 10000, 0.025425
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 89.6561
+Memory Used: 15508.5
+negative, 10000, 0.0336384
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan
+...
+Initialization Time: 82.5701
+Memory Used: 15506.5
+negative, 10000, 0.0376962
+positive, 0, nan
+labeltime, 0, nan
+edgetime, 0, nan

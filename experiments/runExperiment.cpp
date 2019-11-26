@@ -203,7 +203,7 @@ void runQueries(Graph *newG, Random *rand, char *queryFile, int max_penalty)
             string edgeA;
 
             if (t == NULL)
-                edgeA = "1+";
+                edgeA = "U";
             else
                 edgeA = string(t);
 
