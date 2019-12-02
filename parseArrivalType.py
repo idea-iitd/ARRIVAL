@@ -1,10 +1,10 @@
 import pandas as pd
 
-ds = ['gplus','dblp','freebase']
+ds = ['gplus','dblp','freebase','stack','twitter']
 for d in ds:
-    for e in [1,2,3,4,5]:
-        a = pd.read_csv("../"+d+"/querydb"+str(e)+".log", delimiter = ',')
-        b = pd.read_csv("../BBFS/"+d+"qdb"+str(e)+"BBFS.txt", delimiter = ' ')
+    for e in [2,3,4]:
+        a = pd.read_csv("../"+d+"/query"+str(e)+".log", delimiter = ',')
+        b = pd.read_csv("../BBFS/"+d+"q"+str(e)+"BBFS.txt", delimiter = ' ')
         pospos = 0
         posbbfs = 0
         negbbfs = 0
@@ -44,4 +44,4 @@ for d in ds:
                         negrr += a[' time'][i]
         except:
             pass
-        print(d,e,float(pospos)/(posneg+pospos), posbbfs/posrr, negbbfs/negrr)
+        print(d,e-1,float(pospos)/(posneg+pospos), posbbfs/posrr, negbbfs/negrr)

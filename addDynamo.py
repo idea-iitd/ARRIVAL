@@ -48,6 +48,7 @@ queries = sorted(list(np.random.randint(low=start, high=end, size=1000)))
 i = 0
 
 line = inFile.readline()
+line = inFile.readline()
 while line:
     if i == 1000 :
         break

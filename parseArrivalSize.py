@@ -2,9 +2,9 @@ import pandas as pd
 
 ds = ['gplus','dblp','freebase']
 for d in ds:
-    for e in [1,2,3,4,5]:
-        a = pd.read_csv("../"+d+"/querydb"+str(e)+".log", delimiter = ',')
-        b = pd.read_csv("../BBFS/"+d+"qdb"+str(e)+"BBFS.txt", delimiter = ' ')
+    for e in [2,4,6,8]:
+        a = pd.read_csv("../"+d+"/queryls"+str(e)+".log", delimiter = ',')
+        b = pd.read_csv("../BBFS/"+d+"qls"+str(e)+"BBFS.txt", delimiter = ' ')
         pospos = 0
         posbbfs = 0
         negbbfs = 0
