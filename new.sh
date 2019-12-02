@@ -1,1 +1,0 @@
-./run.sh dblp querytime 0 4 > results/dblp_qt.csv
