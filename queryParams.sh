@@ -14,9 +14,6 @@
 ./a.out ../dblp/edges.txt ../dblp/labels.txt ../dblp/attributes.txt ../dblp/querymix.txt ../dblp/querywl150.log 0 4 1.5 1> ../dblp/querywl150.csv
 ./a.out ../dblp/edges.txt ../dblp/labels.txt ../dblp/attributes.txt ../dblp/querymix.txt ../dblp/querywl175.log 0 4 1.75 1> ../dblp/querywl175.csv
 
-cd ../BBFS
-./a.out dblpqwl25 ../dblp/edges.txt ../dblp/labels.txt 0 ../dblp/oldquerymix.txt > ../dblp/querymixBBFS.csv&
-
 ./a.out ../freebase/edges.txt ../freebase/labels.txt ../freebase/attributes.txt ../freebase/querymix.txt ../freebase/querynw25.log 1 4 1 0.25> ../freebase/querynw25.csv
 ./a.out ../freebase/edges.txt ../freebase/labels.txt ../freebase/attributes.txt ../freebase/querymix.txt ../freebase/querynw50.log 1 4 1 0.5> ../freebase/querynw50.csv
 ./a.out ../freebase/edges.txt ../freebase/labels.txt ../freebase/attributes.txt ../freebase/querymix.txt ../freebase/querynw75.log 1 4 1 0.75> ../freebase/querynw75.csv
