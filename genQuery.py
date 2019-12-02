@@ -50,9 +50,9 @@ for inp in sys.argv[1:]:
             inpx = np.random.randint(3)+2
             y = np.random.randint(nodes[inp])
             x = np.random.randint(nodes[inp])
-            k = generate(ofile, querytype = inpx, querySize=inp2)
+            k = generate(ofile, queryType = inpx, querySize=inp2)
             oFile.write('query ' + str(x) +' ' + str(y) + ' ' +k[0] +"\n")
-            oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inp2) +" " + str(qs) +" " +' '.join(map(str,k[1]))+ "\n")
+            oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inpx) +" " + str(len(k[1])) +" " +' '.join(map(str,k[1]))+ "\n")
         oFile.close()
 
     for inp2 in input3:
@@ -60,6 +60,8 @@ for inp in sys.argv[1:]:
         oFile2 = open('../'+inp+'/oldquery'+str(inp2)+'.txt','w')
         if inp2 == 'mix':
             inpx = -1
+        else:
+            inpx = 0
         for i in range(10000):
             if inpx == -1:
                 inp2 = np.random.randint(3)+2
@@ -68,24 +70,25 @@ for inp in sys.argv[1:]:
             x = np.random.randint(nodes[inp])
             k = generate(ofile, queryType=inp2, querySize=qs)
             oFile.write('query ' + str(x) +' ' + str(y) + ' ' + k[0] +"\n")
-            oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inp2) +" " + str(qs) +" " +' '.join(map(str,k[1]))+ "\n")
+            oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inp2) +" " + str(len(k[1])) +" " +' '.join(map(str,k[1]))+ "\n")
         oFile.close()
 
     for inp2 in input4:
         oFile = open('../'+inp+'/querydb'+str(inp2)+'.txt','w')
-        oFile2 = open('../'+inp+'/oldquery'+str(inp2)+'.txt','w')
+        oFile2 = open('../'+inp+'/oldquerydb'+str(inp2)+'.txt','w')
         for i in range(10000):
             qs = (np.random.randint(4)+1)*2
             inpx = np.random.randint(3)+2
             y = np.random.randint(nodes[inp])
             x = np.random.randint(nodes[inp])
-            k = generate(ofile, querytype = inpx, querySize=inp2, bin_start=(int(inp2)-1)*5, bin_end=int(inp2)*5)
+            k = generate(ofile, queryType = inpx, querySize=qs, bin_start=(int(inp2)-1)*5, bin_end=int(inp2)*5)
             oFile.write('query ' + str(x) +' ' + str(y) + ' ' + k[0]+"\n")
-            oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inp2) +" " + str(qs) +" " +' '.join(map(str,k[1]))+ "\n")
+            oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inpx) +" " + str(len(k[1])) +" " +' '.join(map(str,k[1]))+ "\n")
         oFile.close()
 
 inp = 'twitter'
 oFile = open('../twitter/querymix.txt','w')
+oFile2 = open('../twitter/oldquerymix.txt','w')
 ofile = pd.read_csv('../'+inp+'/labelfrequency.txt',sep = " ", header = None).sort_values(by = 1, ascending = False).reset_index(drop = True)
 inp2 = -1
 for i in range(10000):
@@ -95,6 +98,6 @@ for i in range(10000):
     x = np.random.randint(nodes[inp])
     k = generate(ofile, queryType=inp2, querySize=qs)
     oFile.write('query ' + str(x) +' ' + str(y) + ' ' +k[0]+"\n")
-    oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inp2) +" " + str(qs) +" " +' '.join(map(str,k[1]))+ "\n")
+    oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inp2) +" " + str(len(k[1])) +" " +' '.join(map(str,k[1]))+ "\n")
 
 oFile.close()

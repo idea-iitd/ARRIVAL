@@ -250,7 +250,16 @@ int main(int argc, char *argv[])
     int dir = atoi(argv[6]);
     int max_penalty = atoi(argv[7]);
     double v1 = getValue();
+    float walkLength;
+    float numWalks;
     Graph *newG = new Graph(edgeFile, labelFile, attrFile, dir);
+    if (argc != 8)
+    {
+        walkLength = atof(argv[8]);
+        numWalks = atof(argv[9]);
+        newG->walkLength *= walkLength;
+        newG->numWalks *= numWalks;
+    }
     cout << "Memory Used: " << (getValue() - v1)/1024 << endl;
     Random *rand = new Random(newG->numEdges, time(0));
     runQueries(newG, rand, queryFile, max_penalty);

@@ -16,13 +16,13 @@ for inp in sys.argv[1:]:
         while line:
             try:
                 if d[int(line.split()[0])] >= 1:
-                    outfile.write(str(d[int(line.split()[0])])+' '+line.split()[1]+'\n')
+                    outfile.write(line)
             except:
                 x = np.random.randint(10000)
                 if x < int(inp2):
-                    d[int(line.split()[0])] = i
+                    d[int(line.split()[0])] = 1
                     i+=1
-                    outfile.write(str(d[int(line.split()[0])])+' '+line.split()[1]+'\n')
+                    outfile.write(line)
                 else:
                     d[int(line.split()[0])] = 0
             line = infile1.readline()
@@ -32,7 +32,7 @@ for inp in sys.argv[1:]:
         while line:
             try:
                 if d[int(line.split()[0])] >= 1 and d[int(line.split()[1])] >= 1:
-                    outfile.write(str(d[int(line.split()[0])])+' '+str(d[int(line.split()[1])])+'\n')
+                    outfile.write(line)
             except:
                 pass
             line = infile2.readline()
@@ -102,7 +102,7 @@ for inp in ["twitter"]:
     while line:
         try:
             for i in range(6):
-                if d[i][int(line.split()[0])] == 1 and d[i][int(line.split()[1])] == 1:
+                if d[i][int(line.split()[0])] >= 1 and d[i][int(line.split()[1])] >= 1:
                     outfile[i].write(str(d[i][int(line.split()[0])])+' '+str(d[i][int(line.split()[1])])+'\n')
         except:
             pass
