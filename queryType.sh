@@ -30,7 +30,6 @@ cd ../BBFS
 ./a.out dblpq4 ../dblp/edges.txt ../dblp/labels.txt 0 ../dblp/oldquery4.txt > ../dblp/query4BBFS.csv
 
 cd ../ARRIVAL
-
 ./a.out ../freebase/edges.txt ../freebase/labels.txt ../freebase/attributes.txt ../freebase/querymix.txt ../freebase/querymix.log 1 4 > ../freebase/querymix.csv
 ./a.out ../freebase/edges.txt ../freebase/labels.txt ../freebase/attributes.txt ../freebase/query2.txt ../freebase/query2.log 1 4 > ../freebase/query2.csv
 ./a.out ../freebase/edges.txt ../freebase/labels.txt ../freebase/attributes.txt ../freebase/query3.txt ../freebase/query3.log 1 4 > ../freebase/query3.csv
@@ -42,6 +41,17 @@ cd ../BBFS
 ./a.out freebaseq3 ../freebase/edges.txt ../freebase/labels.txt 1 ../freebase/oldquery3.txt > ../freebase/query3BBFS.csv&
 ./a.out freebaseq4 ../freebase/edges.txt ../freebase/labels.txt 1 ../freebase/oldquery4.txt > ../freebase/query4BBFS.csv
 
+cd ../ARRIVAL
+./a.out ../stack/edges.txt ../stack/labels.txt ../stack/attributes.txt ../stack/query2.txt ../stack/query2.log 1 2 > ../stack/query2.csv
+./a.out ../stack/edges.txt ../stack/labels.txt ../stack/attributes.txt ../stack/query3.txt ../stack/query3.log 1 2 > ../stack/query3.csv
+./a.out ../stack/edges.txt ../stack/labels.txt ../stack/attributes.txt ../stack/query4.txt ../stack/query4.log 1 2 > ../stack/query4.csv
+
+cd ../BBFS
+clang++ -O3 V2/dynamic_main.cpp
+./a.out ../stack/edges.txt ../stack/oldquery2.txt > ../stack/query2BBFS.csv&
+./a.out ../stack/edges.txt ../stack/oldquery3.txt > ../stack/query3BBFS.csv&
+./a.out ../stack/edges.txt ../stack/oldquery4.txt > ../stack/query4BBFS.csv
+clang++ -O3 bbfs.cpp
 cd ../ARRIVAL
 
 if [ $1 -gt 0 ];

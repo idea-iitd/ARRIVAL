@@ -261,7 +261,7 @@ int main(int argc, char *argv[])
         newG->numWalks *= numWalks;
     }
     cout << "Memory Used: " << (getValue() - v1)/1024 << endl;
-    Random *rand = new Random(newG->numEdges, time(0));
+    Random *rand = new Random(newG->numEdges, 1);
     runQueries(newG, rand, queryFile, max_penalty);
     logfile.close();
     return 0;

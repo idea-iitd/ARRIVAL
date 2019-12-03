@@ -3,6 +3,7 @@
 Node::Node(int _NodeId)
 {
 	nodeId = _NodeId;
+	labels.push_back(-1);
 }
 
 void Node::addEdge(int _destId, bool _direction, int _label = 0)

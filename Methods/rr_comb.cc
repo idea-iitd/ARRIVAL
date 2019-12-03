@@ -15,7 +15,6 @@
 
 int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edgeAutomata, Random *rand, int max_pen = 2)
 {
-
 	// walk number -> nodes visited in order
 	vector<vector<int> > fwd_walk, bwd_walk;
 	vector<int> temp;
@@ -69,7 +68,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 				prevEdgeState = edgeState;
 
 				// If 0 edges from this node then max penalty to it and if it is source then return unreachable
-				int numChild = currNode->allFwdEdges.size();
+				int numChild = prevNode->allFwdEdges.size();
 				if (numChild == 0)
 				{
 					if (node == src)
@@ -97,7 +96,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 					// Choose an appropriate edge
 					ind = rand->next() % allEdgeLabels.size();
 					edgeLabel = allEdgeLabels[ind];
-					while (currNode->fwd_labelled_edges.find(edgeLabel) == currNode->fwd_labelled_edges.end())
+					while (prevNode->fwd_labelled_edges.find(edgeLabel) == prevNode->fwd_labelled_edges.end())
 					{
 						if (++incr == allEdgeLabels.size())
 							break;
@@ -110,7 +109,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 						break;
 
 					// If no nodes then the edgelabel is assumed faulty--This shall never happen but just in case
-					numChild = (currNode->fwd_labelled_edges[edgeLabel]).size();
+					numChild = (prevNode->fwd_labelled_edges[edgeLabel]).size();
 					if (numChild == 0)
 						continue;
 
@@ -118,6 +117,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 					vector<state *> possTransitions = prevEdgeState->goTransition(edgeLabel, direction);
 					ind = rand->next() % possTransitions.size();
 					edgeState = possTransitions[ind];
+
 
 					// Check for matching with already done backward walks, with new edge and old node states
 					if (walkNumber_B.find(node) != walkNumber_B.end())
@@ -144,7 +144,6 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 							}
 						}
 					}
-
 					// Randomly choosing next node, numChild times
 					bool flag = false;
 					for (int k = 0; k < numChild; ++k)
@@ -155,8 +154,9 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 
 						// Simplicity condition
 						if (set.find(node) != set.end())
+						{
 							continue;
-
+						}
 						// Find if node satisfies any of the possible labels
 						for (int labelChecker = 0; labelChecker < allNodeLabels.size(); ++labelChecker)
 						{
@@ -214,7 +214,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 				prevEdgeState = edgeState;
 
 				// If 0 edges from this node then max penalty to it and if it is source then return unreachable
-				int numChild = currNode->allBwdEdges.size();
+				int numChild = prevNode->allBwdEdges.size();
 				if (numChild == 0)
 				{
 					if (node == dst)
@@ -242,7 +242,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 					// Choose an appropriate edge
 					ind = rand->next() % allEdgeLabels.size();
 					edgeLabel = allEdgeLabels[ind];
-					while (currNode->bwd_labelled_edges.find(edgeLabel) == currNode->bwd_labelled_edges.end())
+					while (prevNode->bwd_labelled_edges.find(edgeLabel) == prevNode->bwd_labelled_edges.end())
 					{
 						if (++incr == allEdgeLabels.size())
 							break;
@@ -255,7 +255,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 						break;
 
 					// If no nodes then the edgelabel is assumed faulty--This shall never happen but just in case
-					numChild = (currNode->bwd_labelled_edges[edgeLabel]).size();
+					numChild = (prevNode->bwd_labelled_edges[edgeLabel]).size();
 					if (numChild == 0)
 						continue;
 
