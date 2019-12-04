@@ -37,6 +37,39 @@ for inp in sys.argv[1:]:
                 pass
             line = infile2.readline()
 
+
+def selectNodes():
+    try:
+        nextQ = list(edges.loc[int(line.split()[0])][1])
+        for j in nextQ:
+            d[i][j] = kl[i]
+            kl[i] += 1
+            nodesSelected[i] += 1
+            try:
+                nnextQ = list(edges.loc[j][1])
+                for jko in nnextQ:
+                    d[i][jko] = kl[i]
+                    kl[i] += 1
+                    nodesSelected[i] += 1
+            except:
+                try:
+                    jko = edges.loc[j][1]
+                    d[i][jko] = kl[i]
+                    kl[i] += 1
+                    nodesSelected[i] += 1
+                except:
+                    pass
+    except:
+        try:
+            j = edges.loc[int(line.split()[0])][1]
+            d[i][j] = kl[i]
+            kl[i] += 1
+            nodesSelected[i] += 1
+        except:
+            pass
+        
+
+edges = pd.read_csv("../twitter/edges.txt", delimiter = ' ',index_col = 0, header = None)
 cons = ["100", "133", "150", "166", "175","200"]
 for inp in ["twitter"]:
     n = 0
@@ -58,13 +91,11 @@ for inp in ["twitter"]:
 
     d = [d1,d2,d3,d4,d5,d_0]
     outfile = [outfile1, outfile2, outfile3, outfile4, outfile5, outfile_0]
-
     line = infile1.readline()
     kl = [1,1,1,1,1,1]
+    nodesSelected = [0,0,0,0,0,0]
     while line:
         n+=1
-        if (n % 10000 == 0):
-            print(n)
         try:
             if d[0][int(line.split()[0])] >= 1:
                 outfile1.write(str(d[0][int(line.split()[0])])+' '+line.split()[1]+'\n')
@@ -79,31 +110,19 @@ for inp in ["twitter"]:
             if d[5][int(line.split()[0])] >= 1:
                 outfile_0.write(str(d[5][int(line.split()[0])])+' '+line.split()[1]+'\n')
         except:
-            x = np.random.randint(10000)
+            x = np.random.randint(10000) 
             i = -1
             for inp2 in cons:
                 i+=1
+                if nodesSelected[i] > int(inp2)*400:
+                    x = 10000
                 if x < int(inp2):
                     d[i][int(line.split()[0])] = kl[i]
                     kl[i]+=1
                     outfile[i].write(str(d[i][int(line.split()[0])])+' '+line.split()[1]+'\n')
+                    nodesSelected[i] += 1
+                    normalSelected[i] += 1
+                    selectNodes()
                 else:
                     d[i][int(line.split()[0])] = 0
         line = infile1.readline()
-    infile2 = open("../"+inp+"/edges.txt", 'r')
-    outfile6 = open("../"+inp+"/subgraphs/edges100.txt", 'w')  
-    outfile7 = open("../"+inp+"/subgraphs/edges133.txt", 'w') 
-    outfile8 = open("../"+inp+"/subgraphs/edges150.txt", 'w') 
-    outfile9 = open("../"+inp+"/subgraphs/edges166.txt", 'w') 
-    outfile10 = open("../"+inp+"/subgraphs/edges175.txt", 'w') 
-    outfile_1 = open("../"+inp+"/subgraphs/edges200.txt", 'w')
-    outfile = [outfile6, outfile7, outfile8, outfile9, outfile10, outfile_1]
-    line = infile2.readline()
-    while line:
-        try:
-            for i in range(6):
-                if d[i][int(line.split()[0])] >= 1 and d[i][int(line.split()[1])] >= 1:
-                    outfile[i].write(str(d[i][int(line.split()[0])])+' '+str(d[i][int(line.split()[1])])+'\n')
-        except:
-            pass
-        line = infile2.readline()

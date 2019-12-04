@@ -62,7 +62,6 @@ then
     ./a.out ../twitter/edges.txt ../twitter/labels.txt ../twitter/attributes.txt ../twitter/query4.txt ../twitter/query4.log 1 4 > ../twitter/query4.csv
 
     cd ../BBFS
-    clang++ -O3 bbfs.cpp
     ./a.out twitterqmix ../twitter/edges.txt ../twitter/labels.txt 1 ../twitter/oldquerymix.txt > ../twitter/querymixBBFS.csv&
     ./a.out twitterq2 ../twitter/edges.txt ../twitter/labels.txt 1 ../twitter/oldquery2.txt > ../twitter/query2BBFS.csv&
     ./a.out twitterq3 ../twitter/edges.txt ../twitter/labels.txt 1 ../twitter/oldquery3.txt > ../twitter/query3BBFS.csv&

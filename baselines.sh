@@ -1,25 +1,38 @@
 # LI
 
-cd ..
-chmod +x Baselines/LCR/LCRIndexing/rebuild.sh
+cd ../Baselines/LCR/LCRIndexing
+chmod +x rebuild.sh
 ./rebuild.sh
 
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label30edges100.txt 1 30_100.csv > 30_100.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label30edges133.txt 1 30_133.csv > 30_133.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label30edges150.txt 1 30_150.csv > 30_150.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label30edges166.txt 1 30_166.csv > 30_166.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label30edges175.txt 1 30_175.csv > 30_175.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label30edges200.txt 1 30_200.csv > 30_200.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label25edges200.txt 1 25_200.csv > 25_200.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label20edges200.txt 1 20_200.csv > 20_200.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label15edges200.txt 1 15_200.csv > 15_200.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label10edges200.txt 1 10_200.csv > 10_200.output
-./Baselines/LCR/LCRIndexing/build/default/runExperiment twitter/subgraphs/label5edges200.txt 1 5_200.csv > 5_200.output
+./build/default/genQuery ../../../twitter/subgraphs/label30edges100.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label30edges133.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label30edges150.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label30edges166.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label30edges175.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label30edges200.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label25edges200.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label20edges200.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label15edges200.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label10edges200.txt 1 100 4 6
+./build/default/genQuery ../../../twitter/subgraphs/label5edges200.txt 1 100 4 6
+
+
+./build/default/runExperiment ../../../twitter/subgraphs/label30edges100.txt 1 30_100.csv > 30_100.output
+./build/default/runExperiment ../../../twitter/subgraphs/label30edges133.txt 1 30_133.csv > 30_133.output
+./build/default/runExperiment ../../../twitter/subgraphs/label30edges150.txt 1 30_150.csv > 30_150.output
+./build/default/runExperiment ../../../twitter/subgraphs/label30edges166.txt 1 30_166.csv > 30_166.output
+./build/default/runExperiment ../../../twitter/subgraphs/label30edges175.txt 1 30_175.csv > 30_175.output
+./build/default/runExperiment ../../../twitter/subgraphs/label30edges200.txt 1 30_200.csv > 30_200.output
+./build/default/runExperiment ../../../twitter/subgraphs/label25edges200.txt 1 25_200.csv > 25_200.output
+./build/default/runExperiment ../../../twitter/subgraphs/label20edges200.txt 1 20_200.csv > 20_200.output
+./build/default/runExperiment ../../../twitter/subgraphs/label15edges200.txt 1 15_200.csv > 15_200.output
+./build/default/runExperiment ../../../twitter/subgraphs/label10edges200.txt 1 10_200.csv > 10_200.output
+./build/default/runExperiment ../../../twitter/subgraphs/label5edges200.txt 1 5_200.csv > 5_200.output
 
 # RARE LABELS
 
 
-cd Baselines/GraphRegExp
+cd ../../GraphRegExp
 javac *.java
 java Graphregexp -nogui -e ../../twitter/subgraphs/label30edges100.txt -create ../../twitter/subgraphs/label30edges100queries.txt >> log.txt&
 sleep 30
@@ -52,7 +65,7 @@ cd ../../ARRIVAL
 
 # ARRIVAL
 
-clang++ -Xpreprocessor -flto -march=native -O3 experiments/runExperiment.cpp
+clang++ -Xpreprocessor -flto -march=native -O3 experiments/genQuery.cpp
 echo "100_30" > results.txt
 ./a.out ../twitter/subgraphs/edges100.txt ../twitter/subgraphs/labels100_30.txt ../twitter/attributes.txt ../twitter/subgraphs/query100_30.txt ../twitter/base100_30.log 1 2 >> results.txt
 echo "133_30" >>results.txt
