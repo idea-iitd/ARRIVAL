@@ -8,9 +8,9 @@ for f in files:
     for i in range(6):
         l = fil.readline()
     try:
-        pos_time = int(l.split(',')[2])
+        pos_time = int(l.split(',')[3])
         l = fil.readline()
-        neg_time = int(l.split(',')[2])
+        neg_time = int(l.split(',')[3])
         print(f.split('_')[1], f.split('_')[0], mem, (pos_time+neg_time)/2)
     except:
         print(f.split('_')[1], f.split('_')[0], mem, 0)
