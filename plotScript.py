@@ -248,7 +248,7 @@ dataNS = pd.read_csv('NSizeOutput.txt', index_col = None, header = None)
 fig = plt.figure()
 plt.rcParams.update({'font.size': 15})
 ax = fig.add_subplot(111)
-x = [2,4,6,8]
+x = [25,50,75,100]
 y1 = [dataNS[3][4],dataNS[3][5],dataNS[3][6],dataNS[3][7]]
 y2 = [dataNS[4][4],dataNS[4][5],dataNS[4][6],dataNS[4][7]]
 ax.plot(x,y1,marker = 'x',linewidth=4.0,markersize= 12)
@@ -261,7 +261,7 @@ plt.savefig('figures/fig6e_dblp_time_nsize.eps', format='eps',bbox_inches='tight
 fig = plt.figure()
 plt.rcParams.update({'font.size': 15})
 ax = fig.add_subplot(111)
-x = [2,4,6,8]
+x = [25,50,75,100]
 y1 = [dataNS[3][8],dataNS[3][9],dataNS[3][10],dataNS[3][11]]
 y2 = [dataNS[4][8],dataNS[4][9],dataNS[4][10],dataNS[4][11]]
 ax.plot(x,y1,marker = 'x',linewidth=4.0,markersize= 12)
@@ -274,7 +274,7 @@ plt.savefig('figures/fig6f_freebase_time_nsize.eps', format='eps',bbox_inches='t
 fig = plt.figure()
 plt.rcParams.update({'font.size': 15})
 ax = fig.add_subplot(111)
-x = [2,4,6,8]
+x = [25,50,75,100]
 y1 = [dataNS[3][0],dataNS[3][1],dataNS[3][2],dataNS[3][3]]
 y2 = [dataNS[4][0],dataNS[4][1],dataNS[4][2],dataNS[4][3]]
 ax.plot(x,y1,marker = 'x',linewidth=4.0,markersize= 12)
@@ -291,53 +291,75 @@ dataParams = pd.read_csv('paramsOutput.txt', index_col = None, header = None)
 fig = plt.figure()
 plt.rcParams.update({'font.size': 15})
 ax = fig.add_subplot(111)
-x = [1,2,3,4,5]
-y1 = [dataDB[2][0],dataDB[2][1],dataDB[2][2],dataDB[2][3],dataDB[2][4]]
-y2 = [dataDB[2][5],dataDB[2][6],dataDB[2][7],dataDB[2][8],dataDB[2][9]]
-y3 = [dataDB[2][10],dataDB[2][11],dataDB[2][12],dataDB[2][13],dataDB[2][14]]
+x = [0.25,0.5,0.75,1,1.25,1.5,1.75]
+i = 0
+y1 = [dataParams[2][i],dataParams[2][i+1],dataParams[2][i+2],dataParams[2][i+3],dataParams[2][i+4],dataParams[2][i+5],dataParams[2][i+6]]
+i+=7
+y2 = [dataParams[2][i],dataParams[2][i+1],dataParams[2][i+2],dataParams[2][i+3],dataParams[2][i+4],dataParams[2][i+5],dataParams[2][i+6]]
+i+=7
+y3 = [dataParams[2][i],dataParams[2][i+1],dataParams[2][i+2],dataParams[2][i+3],dataParams[2][i+4],dataParams[2][i+5],dataParams[2][i+6]]
+i+=7
 ax.plot(x,y1,marker = 'x',linewidth=4.0,markersize= 12)
 ax.plot(x,y2,marker = 'o',linewidth=4.0,markersize= 12)
 ax.plot(x,y3,marker = 'v',linewidth=4.0,markersize= 12)
-ax.set_xlabel('Density Bin',fontsize=22)
+ax.set_xlabel('K',fontsize=22)
 ax.set_ylabel('Recall',fontsize=22)
-ax.legend(['GPlus', 'DBLP', 'Freebase'], loc='upper left', fontsize = 12)
-plt.savefig('figures/fig6a_recall_db.eps', format='eps',bbox_inches='tight')
+ax.legend(['DBLP', 'Freebase'], loc='upper left', fontsize = 12)
+plt.savefig('figures/fig7e_recall_nw.eps', format='eps',bbox_inches='tight')
+
 
 fig = plt.figure()
 plt.rcParams.update({'font.size': 15})
 ax = fig.add_subplot(111)
-x = [1,2,3,4,5]
-y1 = [dataDB[3][5],dataDB[3][6],dataDB[3][7],dataDB[3][8],dataDB[3][9]]
-y2 = [dataDB[4][5],dataDB[4][6],dataDB[4][7],dataDB[4][8],dataDB[4][9]]
+x = [0.25,0.5,0.75,1,1.25,1.5,1.75]
+y1 = [dataParams[2][i],dataParams[2][i+1],dataParams[2][i+2],dataParams[2][i+3],dataParams[2][i+4],dataParams[2][i+5],dataParams[2][i+6]]
+i+=7
+y2 = [dataParams[2][i],dataParams[2][i+1],dataParams[2][i+2],dataParams[2][i+3],dataParams[2][i+4],dataParams[2][i+5],dataParams[2][i+6]]
+i+=7
+y3 = [dataParams[2][i],dataParams[2][i+1],dataParams[2][i+2],dataParams[2][i+3],dataParams[2][i+4],dataParams[2][i+5],dataParams[2][i+6]]
+i+=7
 ax.plot(x,y1,marker = 'x',linewidth=4.0,markersize= 12)
 ax.plot(x,y2,marker = 'o',linewidth=4.0,markersize= 12)
-ax.set_xlabel('Density Bin',fontsize=22)
-ax.set_ylabel('Speedup',fontsize=22)
-ax.legend(['Positive Queries', 'Negative Queries'], loc='upper left', fontsize = 12)
-plt.savefig('figures/fig6b_dblp_speedup_db.eps', format='eps',bbox_inches='tight')
+ax.plot(x,y3,marker = 'v',linewidth=4.0,markersize= 12)
+ax.set_xlabel('K',fontsize=22)
+ax.set_ylabel('Recall',fontsize=22)
+ax.legend(['DBLP', 'Freebase'], loc='upper left', fontsize = 12)
+plt.savefig('figures/fig7g_recall_wl.eps', format='eps',bbox_inches='tight')
 
 fig = plt.figure()
 plt.rcParams.update({'font.size': 15})
 ax = fig.add_subplot(111)
-x = [1,2,3,4,5]
-y1 = [dataDB[3][10],dataDB[3][11],dataDB[3][12],dataDB[3][13],dataDB[3][14]]
-y2 = [dataDB[4][10],dataDB[4][11],dataDB[4][12],dataDB[4][13],dataDB[4][14]]
+x = [0.25,0.5,0.75,1,1.25,1.5,1.75]
+i = 0
+y1 = [dataParams[3][i],dataParams[3][i+1],dataParams[3][i+2],dataParams[3][i+3],dataParams[3][i+4],dataParams[3][i+5],dataParams[3][i+6]]
+y2 = [dataParams[4][i],dataParams[4][i+1],dataParams[4][i+2],dataParams[4][i+3],dataParams[4][i+4],dataParams[4][i+5],dataParams[4][i+6]]
+i+=7
+y3 = [dataParams[3][i],dataParams[3][i+1],dataParams[3][i+2],dataParams[3][i+3],dataParams[3][i+4],dataParams[3][i+5],dataParams[3][i+6]]
+y4 = [dataParams[4][i],dataParams[4][i+1],dataParams[4][i+2],dataParams[4][i+3],dataParams[4][i+4],dataParams[4][i+5],dataParams[4][i+6]]
 ax.plot(x,y1,marker = 'x',linewidth=4.0,markersize= 12)
 ax.plot(x,y2,marker = 'o',linewidth=4.0,markersize= 12)
-ax.set_xlabel('Density Bin',fontsize=22)
-ax.set_ylabel('Speedup',fontsize=22)
-ax.legend(['Positive Queries', 'Negative Queries'], loc='upper left', fontsize = 12)
-plt.savefig('figures/fig6c_freebase_speedup_db.eps', format='eps',bbox_inches='tight')
+ax.plot(x,y3,marker = '^',linewidth=4.0,markersize= 12)
+ax.plot(x,y4,marker = '#',linewidth=4.0,markersize= 12)
+ax.set_xlabel('K',fontsize=22)
+ax.set_ylabel('Time (in s)',fontsize=22)
+ax.legend(['DBLP Positive', 'DBLP Negative','Freebase Positive', 'Freebase Negative'], loc='upper left', fontsize = 12)
+plt.savefig('figures/fig7f_time_nw.eps', format='eps',bbox_inches='tight')
 
 fig = plt.figure()
 plt.rcParams.update({'font.size': 15})
 ax = fig.add_subplot(111)
-x = [1,2,3,4,5]
-y1 = [dataDB[3][0],dataDB[3][1],dataDB[3][2],dataDB[3][3],dataDB[3][4]]
-y2 = [dataDB[4][0],dataDB[4][1],dataDB[4][2],dataDB[4][3],dataDB[4][4]]
+x = [0.25,0.5,0.75,1,1.25,1.5,1.75]
+i+=7
+y1 = [dataParams[3][i],dataParams[3][i+1],dataParams[3][i+2],dataParams[3][i+3],dataParams[3][i+4],dataParams[3][i+5],dataParams[3][i+6]]
+y2 = [dataParams[4][i],dataParams[4][i+1],dataParams[4][i+2],dataParams[4][i+3],dataParams[4][i+4],dataParams[4][i+5],dataParams[4][i+6]]
+i+=7
+y3 = [dataParams[3][i],dataParams[3][i+1],dataParams[3][i+2],dataParams[3][i+3],dataParams[3][i+4],dataParams[3][i+5],dataParams[3][i+6]]
+y4 = [dataParams[4][i],dataParams[4][i+1],dataParams[4][i+2],dataParams[4][i+3],dataParams[4][i+4],dataParams[4][i+5],dataParams[4][i+6]]
 ax.plot(x,y1,marker = 'x',linewidth=4.0,markersize= 12)
 ax.plot(x,y2,marker = 'o',linewidth=4.0,markersize= 12)
-ax.set_xlabel('Density Bin',fontsize=22)
-ax.set_ylabel('Speedup',fontsize=22)
-ax.legend(['Positive Queries', 'Negative Queries'], loc='upper left', fontsize = 12)
-plt.savefig('figures/fig6d_gplus_speedup_db.eps', format='eps',bbox_inches='tight')
+ax.plot(x,y3,marker = '^',linewidth=4.0,markersize= 12)
+ax.plot(x,y4,marker = '#',linewidth=4.0,markersize= 12)
+ax.set_xlabel('K',fontsize=22)
+ax.set_ylabel('Time (in s)',fontsize=22)
+ax.legend(['DBLP Positive', 'DBLP Negative','Freebase Positive', 'Freebase Negative'], loc='upper left', fontsize = 12)
+plt.savefig('figures/fig7h_time_wl.eps', format='eps',bbox_inches='tight')
