@@ -38,7 +38,25 @@ def generate(ofile, querySize = -1, queryType = -1, bin_start = 0, bin_end = 20)
 
 nodes = {"gplus":100000, "dblp":1750696, "freebase":3674915, "twitter":40000000}
 # This generates queries for querySize, queryType, querydensitybin
-for inp in sys.argv[1:]:
+ktk = sys.argv[1:]
+if ktk[-1] == "twitter":
+    ktk = ktk[:-1]
+    inp = 'twitter'
+    oFile = open('../twitter/querymix.txt','w')
+    oFile2 = open('../twitter/oldquerymix.txt','w')
+    ofile = pd.read_csv('../'+inp+'/labelfrequency.txt',sep = " ", header = None).sort_values(by = 1, ascending = False).reset_index(drop = True)
+    inp2 = -1
+    for i in range(10000):
+        inp2 = np.random.randint(3)+2
+        qs = (np.random.randint(4)+1)*2
+        y = np.random.randint(nodes[inp])
+        x = np.random.randint(nodes[inp])
+        k = generate(ofile, queryType=inp2, querySize=qs)
+        oFile.write('query ' + str(x) +' ' + str(y) + ' ' +k[0]+"\n")
+        oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inp2) +" " + str(len(k[1])) +" " +' '.join(map(str,k[1]))+ "\n")
+
+    oFile.close()
+for inp in ktk:
     ofile = pd.read_csv('../'+inp+'/labelfrequency.txt',sep = " ", header = None).sort_values(by = 1, ascending = False).reset_index(drop = True)
     input2 = [2,4,6,8]
     input3 = ['mix',2,3,4]
@@ -86,18 +104,3 @@ for inp in sys.argv[1:]:
             oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inpx) +" " + str(len(k[1])) +" " +' '.join(map(str,k[1]))+ "\n")
         oFile.close()
 
-inp = 'twitter'
-oFile = open('../twitter/querymix.txt','w')
-oFile2 = open('../twitter/oldquerymix.txt','w')
-ofile = pd.read_csv('../'+inp+'/labelfrequency.txt',sep = " ", header = None).sort_values(by = 1, ascending = False).reset_index(drop = True)
-inp2 = -1
-for i in range(10000):
-    inp2 = np.random.randint(3)+2
-    qs = (np.random.randint(4)+1)*2
-    y = np.random.randint(nodes[inp])
-    x = np.random.randint(nodes[inp])
-    k = generate(ofile, queryType=inp2, querySize=qs)
-    oFile.write('query ' + str(x) +' ' + str(y) + ' ' +k[0]+"\n")
-    oFile2.write('query ' + str(x) +' ' + str(y) + ' ' + str(inp2) +" " + str(len(k[1])) +" " +' '.join(map(str,k[1]))+ "\n")
-
-oFile.close()
