@@ -1,3 +1,4 @@
+clang++ -O3 experiments/genQuery.cpp
 ./a.out ../$1/edges.txt ../$1/labels.txt ../$1/attributes.txt ../$1/queryls2.txt ../$1/queryls2.log 1 4 > ../$1/queryls2.csv
 ./a.out ../$1/edges.txt ../$1/labels.txt ../$1/attributes.txt ../$1/queryls4.txt ../$1/queryls4.log 1 4 > ../$1/queryls4.csv
 ./a.out ../$1/edges.txt ../$1/labels.txt ../$1/attributes.txt ../$1/queryls6.txt ../$1/queryls6.log 1 4 > ../$1/queryls6.csv
