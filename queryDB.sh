@@ -1,5 +1,5 @@
 
-clang++ -std=c++11 -O3 experiments/genQuery.cpp
+clang++ -std=c++11 -O3 experiments/runExperiment.cpp
 ./a.out ../$1/edges.txt ../$1/labels.txt ../$1/attributes.txt ../$1/querydb1.txt ../$1/querydb1.log 1 4 > ../$1/querydb1.csv
 ./a.out ../$1/edges.txt ../$1/labels.txt ../$1/attributes.txt ../$1/querydb2.txt ../$1/querydb2.log 1 4 > ../$1/querydb2.csv
 ./a.out ../$1/edges.txt ../$1/labels.txt ../$1/attributes.txt ../$1/querydb3.txt ../$1/querydb3.log 1 4 > ../$1/querydb3.csv
