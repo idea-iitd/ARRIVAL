@@ -5,7 +5,7 @@ ds = sys.argv[1:]
 for d in ds:
     for e in [25,50,75,100,125,150,175]:
         a = pd.read_csv("../"+d+"/querynw"+str(e)+".log", delimiter = ',')
-        b = pd.read_csv("../BBFS/"+d+"qmix.txt", delimiter = ' ')
+        b = pd.read_csv("../BBFS/"+d+"qmixBBFS.txt", delimiter = ' ')
         pospos = 0
         posbbfs = 0
         negbbfs = 0
@@ -50,7 +50,7 @@ for d in ds:
 for d in ds:
     for e in [25,50,75,100,125,150,175]:
         a = pd.read_csv("../"+d+"/querywl"+str(e)+".log", delimiter = ',')
-        b = pd.read_csv("../BBFS/"+d+"qmix.txt", delimiter = ' ')
+        b = pd.read_csv("../BBFS/"+d+"qmixBBFS.txt", delimiter = ' ')
         pospos = 0
         posbbfs = 0
         negbbfs = 0

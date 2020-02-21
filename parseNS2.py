@@ -5,7 +5,7 @@ ds = sys.argv[1:]
 nsa = [25,50,75,100]
 for d in ds:
     for e in nsa:
-        a = open("../"+d+"/queryns"+str(e)+".csv",'r')
+        fil = open("../"+d+"/queryns"+str(e)+".csv",'r')
         l = fil.readline()
         l = fil.readline()
         l = fil.readline()

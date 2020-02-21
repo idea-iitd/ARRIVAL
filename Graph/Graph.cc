@@ -143,8 +143,8 @@ void Graph::addEdge(int src, int dst, int l, int dir_control = 1)
 void Graph::updateParams() 
 {
 	numStops = (float)(floor(pow((numNodes), 2.0 / 3) * pow(log(numNodes), 1.0 / 3)));
-	walkLength = dia;
-	numWalks = (float)numStops / (2 * walkLength);
+	walkLength = 2 * dia;
+	numWalks = (float)numStops / (2 * dia);
 	if (numWalks == 0)
 		numWalks = 1;
 }

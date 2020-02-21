@@ -61,7 +61,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 				set.insert(node);
 
 				// If no nodes then fullpenalty on node
-				int numChild = (currNode->fwd_labelled_edges[1]).size();
+				int numChild = (currNode->allFwdEdges).size();
 				if (numChild == 0)
 				{
 					if (node == src)
@@ -110,7 +110,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 				{
 
 					int ind = rand->next() % numChild;
-					node = prevNode->fwd_labelled_edges[1][ind];
+					node = prevNode->allFwdEdges[ind];
 					currNode = g->nodes[node];
 
 					// Simplicity condition
@@ -165,7 +165,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 				set.insert(node);
 
 				// If no nodes then fullpenalty on node
-				int numChild = (currNode->bwd_labelled_edges[1]).size();
+				int numChild = (currNode->allBwdEdges).size();
 				if (numChild == 0)
 				{
 					if (node == dst)
@@ -210,7 +210,7 @@ int RandomWalk(int src, int dst, Graph *g, automata *nodeAutomata, automata *edg
 				{
 
 					int ind = rand->next() % numChild;
-					node = prevNode->bwd_labelled_edges[1][ind];
+					node = prevNode->allBwdEdges[ind];
 					currNode = g->nodes[node];
 
 					// Simplicity condition
